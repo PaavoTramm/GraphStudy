@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:m="using:GraphStudy.Models"
 			 xmlns:vm="using:GraphStudy.ViewModels"
+			 xmlns:v="using:GraphStudy.Views"
              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="400"
              x:Class="GraphStudy.Views.GraphView">
 
@@ -15,7 +16,7 @@
 		</UserControl.Styles>
 
 		<Border Margin="1" BorderBrush="DarkGray" BorderThickness="1">
-			<Panel Background="Yellow">
+			<Panel Background="Yellow" x:Name="ThePanel">
 				<ItemsControl Items="{Binding Elements}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -23,7 +24,7 @@
 								<Canvas.RenderTransform>
 									<TransformGroup>
 										<TranslateTransform X="0" Y="0"></TranslateTransform>
-										<ScaleTransform ScaleX="2" ScaleY="2"></ScaleTransform>
+										<ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
 									</TransformGroup>
 								</Canvas.RenderTransform>
 							</Canvas>
@@ -31,14 +32,10 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.DataTemplates>
 						<DataTemplate DataType="vm:GraphVertice">
-							<Ellipse Stroke="Black" Fill="LightGreen" StrokeThickness="1" Width="20" Height="20">
-								<Ellipse.RenderTransform>
-									<TranslateTransform X="-10" Y="-10"> </TranslateTransform>
-								</Ellipse.RenderTransform>
-							</Ellipse>
+							<v:VerticeView></v:VerticeView>
 						</DataTemplate>
 						<DataTemplate DataType="vm:GraphEdge">
-							<Line Stroke="Black" StrokeThickness="0.5" StartPoint="{Binding Start}" EndPoint="{Binding End}"/>
+							<Line Stroke="{Binding Stroke}" StrokeThickness="0.5" StartPoint="{Binding Start}" EndPoint="{Binding End}"/>
 						</DataTemplate>
 					</ItemsControl.DataTemplates>
 				</ItemsControl>

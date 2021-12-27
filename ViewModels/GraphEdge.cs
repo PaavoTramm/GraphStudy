@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Media;
 using ReactiveUI;
 using GraphStudy.Models;
 
 namespace GraphStudy.ViewModels
 {
-    public class GraphEdge : ReactiveObject
+    public class GraphEdge : GraphElement
     {
         Node? m_node;
         Edge? m_edge;
         public GraphEdge(Node node, Edge edge)
+            : base()
         {
             m_node = node;
             m_edge = edge;
+        }
+
+        public override void Update()
+        {
+            this.RaisePropertyChanged("Stroke");
         }
 
         public double X
@@ -98,6 +105,17 @@ namespace GraphStudy.ViewModels
         {
             get { return new Avalonia.Point(X2-X, Y2-Y); }
             set {; }
+        }
+
+        public IBrush Stroke
+        {
+            get
+            {
+                if(m_node != null && m_edge != null && m_edge.Node != null )
+                    if (State.Instance.Selected(m_node) && State.Instance.Selected(m_edge.Node))
+                        return Brushes.Red;
+                return Brushes.Black;
+            }
         }
     }
 }

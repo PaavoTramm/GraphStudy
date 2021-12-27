@@ -30,7 +30,7 @@ namespace GraphStudy.Models
             get => m_width;
             set
             {
-                if (value != Double.NaN)
+                if (Double.IsNormal(value) && value > 0)
                     this.RaiseAndSetIfChanged(ref m_width, value);
             }
         }
@@ -41,9 +41,72 @@ namespace GraphStudy.Models
         {
             get => m_height;
             set
-            { 
-                if (value != Double.NaN) 
+            {
+                if (Double.IsNormal(value) && value > 0)
                     this.RaiseAndSetIfChanged(ref m_height, value); 
+            }
+        }
+
+        private double m_diameter = 20;
+
+        public double Diameter
+        {
+            get => m_diameter;
+            set
+            {
+                if (value != Double.NaN)
+                {
+                    this.RaiseAndSetIfChanged(ref m_diameter, value);
+                    this.RaisePropertyChanged("Offset");
+                }
+            }
+        }
+
+        public double Offset
+        {
+            get => -m_diameter / 2;
+            set { }
+        }
+
+        static List<String> m_algorithms = new List<string>()
+        {
+            "Random",
+            "Dijkstra"
+        };
+
+        int m_index = 0;
+        public String Algorithm
+        {
+            get
+            {
+                return m_algorithms[AlgorithmIndex];
+            }
+            set
+            {
+                int index = m_algorithms.IndexOf(value);
+                if (index >= 0)
+                    AlgorithmIndex = index;
+            }
+        }
+
+        public int AlgorithmIndex
+        {
+            get
+            {
+                return m_index;
+            }
+            set
+            {
+                if (value >= 0 && value < m_algorithms.Count)
+                    this.RaiseAndSetIfChanged(ref m_index, value); 
+            }
+        }
+
+        public IEnumerable<String> Algorithms
+        {
+            get
+            {
+                return m_algorithms;
             }
         }
 

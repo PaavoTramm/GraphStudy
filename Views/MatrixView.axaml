@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GraphStudy.Views.MatrixView">
+	<Grid>
+		<ItemsControl Items="{Binding Elements}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<UniformGrid />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.DataTemplates>
+				<DataTemplate>
+					<Border BorderBrush="Black" BorderThickness="1">
+						<TextBlock Margin="1" FontWeight="{Binding Boldness}" Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+					</Border>
+				</DataTemplate>
+			</ItemsControl.DataTemplates>
+		</ItemsControl>
+	</Grid>
+</UserControl>

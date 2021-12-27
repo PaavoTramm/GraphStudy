@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:m="using:GraphStudy.Models"
+			 xmlns:vm="using:GraphStudy.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="50" d:DesignHeight="50"
+			 ClipToBounds="False"
+             x:Class="GraphStudy.Views.VerticeView">
+	<ToolTip.Tip>
+		<TextBlock Text="{Binding Description}"/>
+	</ToolTip.Tip>
+	<Ellipse Stroke="Black"
+				Fill="{Binding Fill, Mode=OneWay}"
+				StrokeThickness=".5"
+				Width="{Binding Source={x:Static m:Settings.Instance}, Path=Diameter}"
+				Height="{Binding Source={x:Static m:Settings.Instance}, Path=Diameter}">
+		<Ellipse.RenderTransform>
+			<TranslateTransform
+				X="{Binding Source={x:Static m:Settings.Instance}, Path=Offset}"
+				Y="{Binding Source={x:Static m:Settings.Instance}, Path=Offset}"/>
+		</Ellipse.RenderTransform>
+	</Ellipse>
+</UserControl>

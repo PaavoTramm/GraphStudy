@@ -9,7 +9,6 @@ namespace GraphStudy.Models
     public class Generator
     {
         Random m_random = new Random(Guid.NewGuid().GetHashCode());
-        double m_scale = 200.0;
         double m_mindistance = 0.1;
 
         public List<Node> Generate()
@@ -45,7 +44,7 @@ namespace GraphStudy.Models
                 {
                     Node = n,
                     Length = distance,
-                    Cost = m_random.NextDouble(),
+                    Weight = GetWeight()
                 });
             }
 
@@ -55,19 +54,20 @@ namespace GraphStudy.Models
 
             foreach (var edge in all)
             {
-                if (!node.Edges.Any(e => e.Node == edge.Node))
+                if (!node.Edges.Any(e => object.ReferenceEquals(e.Node, edge.Node) ))
                     node.Edges.Add(edge);
                 
                 count++;
 
                 // reverse connection
 
-                if (edge.Node != null && !edge.Node.Edges.Any(e => e.Node == node))
+                if (edge.Node != null && !edge.Node.Edges.Any(e => object.ReferenceEquals(e.Node, node)))
                 {
                     var backConnection = new Edge 
                     { 
                         Node = node, 
-                        Length = edge.Length 
+                        Length = edge.Length,
+                        Weight = edge.Weight
                     };
 
                     edge.Node.Edges.Add(backConnection);
@@ -78,14 +78,37 @@ namespace GraphStudy.Models
             }
         }
 
+        static double GetWeight()
+        {
+            // NOTE: Node.Cost is Node.Length x Node.Weight
+            // if settings.RandomWeight return 0.5 + m_random.NextDouble() ?
+            return 1.0;
+        }
+
+        double XScale
+        {
+            get
+            {
+                return Settings.Instance.Width - Settings.Instance.Diameter - 5;
+            }
+        }
+
+        double YScale
+        {
+            get
+            {
+                return Settings.Instance.Height - Settings.Instance.Diameter - 5;
+            }
+        }
+
         Point Next(List<Node> nodes)
         {
             while (true)
             {
                 Point p = new Point()
                 {
-                    X = m_scale * m_random.NextDouble(),
-                    Y = m_scale * m_random.NextDouble()
+                    X = XScale * m_random.NextDouble(),
+                    Y = YScale * m_random.NextDouble()
                 };
 
                 if (null == FindAtDistance(nodes, p))
@@ -97,7 +120,7 @@ namespace GraphStudy.Models
         {
             foreach (var n in nodes)
             {
-                if (Distance.Between(n.Location, p) < (m_scale * m_mindistance))
+                if (Distance.Between(n.Location, p) < (XScale * m_mindistance))
                     return p;
             }
             return null;

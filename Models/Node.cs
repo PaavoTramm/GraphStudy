@@ -11,5 +11,7 @@ namespace GraphStudy.Models
         public Point Location { get; set; } = new Point();
 
         public List<Edge> Edges { get; set; } = new List<Edge>();
+
+        public String Name { get; set; } = "";
     }
 }

@@ -16,6 +16,12 @@ namespace GraphStudy.ViewModels
             Nodes = new ObservableCollection<Node>(nodes);
         }
 
+        public void Refresh()
+        {
+            foreach (GraphElement element in Elements)
+                element.Update();
+        }
+
         ObservableCollection<Node> m_nodes = new ObservableCollection<Node>();
         public ObservableCollection<Node> Nodes
         {
@@ -23,8 +29,8 @@ namespace GraphStudy.ViewModels
             set { if (value != m_nodes) { this.RaiseAndSetIfChanged(ref m_nodes, value); ReCreatePresentation(); } }
         }
 
-        ObservableCollection<ReactiveObject> m_elements = new ObservableCollection<ReactiveObject>();
-        public ObservableCollection<ReactiveObject> Elements
+        ObservableCollection<GraphElement> m_elements = new ObservableCollection<GraphElement>();
+        public ObservableCollection<GraphElement> Elements
         {
             get { return m_elements; }
             set { if (value != m_elements) { this.RaiseAndSetIfChanged(ref m_elements, value); } }
@@ -32,7 +38,7 @@ namespace GraphStudy.ViewModels
 
         void ReCreatePresentation()
         {
-            List<ReactiveObject> elements = new List<ReactiveObject>();
+            List<GraphElement> elements = new List<GraphElement>();
             foreach(Node node in m_nodes)
             {
                 foreach (Edge edge in node.Edges)
@@ -44,7 +50,7 @@ namespace GraphStudy.ViewModels
                 elements.Add(new GraphVertice(node));
             }
             
-            Elements = new ObservableCollection<ReactiveObject>(elements);
+            Elements = new ObservableCollection<GraphElement>(elements);
         }
     }
 }

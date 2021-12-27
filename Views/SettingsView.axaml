@@ -9,5 +9,9 @@
 		<TextBox Text="{Binding Count}"></TextBox>
 		<Label>Edge count:</Label>
 		<TextBox Text="{Binding Edges}"></TextBox>
+		<Label>Vertice diameter:</Label>
+		<Slider Value="{Binding Diameter}" Minimum="10" Maximum="30"></Slider>
+		<Label>Method:</Label>
+		<ComboBox Items="{Binding Algorithms, Mode=OneWay}" SelectedIndex="{Binding AlgorithmIndex}"></ComboBox>
 	</StackPanel>
 </UserControl>

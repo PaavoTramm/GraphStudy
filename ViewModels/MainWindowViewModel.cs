@@ -11,19 +11,46 @@ namespace GraphStudy.ViewModels
     {
         public MainWindowViewModel()
         {
-            Generate = ReactiveCommand.Create(GenerateGraph);
+            Generate = ReactiveCommand.Create(GenerateExecuted);
+            Run = ReactiveCommand.Create(RunExecuted);
+            Reset = ReactiveCommand.Create(ResetExecuted);
         }
 
-        public string Greeting => "Welcome to Avalonia!";
-
         public ReactiveCommand<Unit, Unit> Generate { get; }
+        public ReactiveCommand<Unit, Unit> Run { get; }
+        public ReactiveCommand<Unit, Unit> Reset { get; }
 
-        void GenerateGraph()
+        void GenerateExecuted()
         {
             Nodes = new ObservableCollection<Node>((new Generator()).Generate());
         }
 
-        ObservableCollection<Node> m_nodes = new ObservableCollection<Node>((new Generator()).Generate());
+        void RunExecuted()
+        {
+            State.Instance.DeSelect();
+
+            Graph.Refresh();
+            Matrix.Refresh();
+
+            Algorithm? algorithm = Algorithm.Create(Settings.Algorithm);
+            if (null == algorithm)
+                return;
+
+            algorithm.Execute(State.Instance, Nodes);
+
+            Graph.Refresh();
+            Matrix.Refresh();
+        }
+
+        void ResetExecuted()
+        {
+            State.Instance.Reset();
+
+            Graph.Refresh();
+            Matrix.Refresh();
+        }
+
+        ObservableCollection<Node> m_nodes = new ObservableCollection<Node>();
         public ObservableCollection<Node> Nodes
         {
             get { return m_nodes; }
@@ -41,6 +68,17 @@ namespace GraphStudy.ViewModels
             }
         }
 
+        MatrixViewModel? m_matrix;
+        public MatrixViewModel Matrix
+        {
+            get
+            {
+                if (null == m_matrix)
+                    m_matrix = new MatrixViewModel(Nodes);
+                return m_matrix;
+            }
+        }
+
         SettingsViewModel m_settings = new SettingsViewModel();
         public SettingsViewModel Settings
         {
@@ -50,6 +88,7 @@ namespace GraphStudy.ViewModels
         void NodesChanged()
         {
             Graph.Nodes = Nodes;
+            Matrix.Nodes = Nodes;
         }
     }
 }

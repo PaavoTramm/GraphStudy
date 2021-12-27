@@ -19,5 +19,23 @@ namespace GraphStudy.ViewModels
             get { return Models.Settings.Instance.Edges; }
             set { Models.Settings.Instance.Edges = value; }
         }
+        public int Diameter
+        {
+            get { return (int)Models.Settings.Instance.Diameter; }
+            set { Models.Settings.Instance.Diameter = (double)value; }
+        }
+        public String Algorithm
+        {
+            get { return Models.Settings.Instance.Algorithm; }
+        }
+        public IEnumerable<String> Algorithms
+        {
+            get { return Models.Settings.Instance.Algorithms; }
+        }
+        public int AlgorithmIndex
+        {
+            get { return Models.Settings.Instance.AlgorithmIndex; }
+            set { Models.Settings.Instance.AlgorithmIndex = value; }
+        }
     }
 }
