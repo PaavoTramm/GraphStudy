@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:m="using:GraphStudy.Models"
+		xmlns:vm="using:GraphStudy.ViewModels"
+		xmlns:v="using:GraphStudy.Views"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GraphStudy.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="GraphStudy">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Grid ColumnDefinitions="*,Auto">
+		
+		<Grid>
+			<TabControl>
+				<TabItem Header="Graph">
+					<v:GraphView Margin="4" DataContext="{Binding Graph, Mode=OneWay}"/>
+				</TabItem>
+				<TabItem Header="Matrix">
+					<TextBox></TextBox>
+				</TabItem>
+			</TabControl>
+		</Grid>
+		
+		<Grid Grid.Column="1" Width="200" Margin="8" RowDefinitions="*,Auto">
+			<v:SettingsView DataContext="{Binding Settings, Mode=OneWay}"/>
+			<DockPanel Grid.Row="1">
+				<Button Command="{Binding Generate}">Generate</Button>
+			</DockPanel>
+		</Grid>
+		
+	</Grid>
+	
+</Window>

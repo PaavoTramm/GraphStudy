@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:m="using:GraphStudy.Models"
+			 xmlns:vm="using:GraphStudy.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="400"
+             x:Class="GraphStudy.Views.GraphView">
+
+		<UserControl.Styles >
+			<Style Selector="ItemsControl > ContentPresenter">
+				<Setter Property="Canvas.Left" Value="{Binding X}"/>
+				<Setter Property="Canvas.Top" Value="{Binding Y}"/>
+			</Style>
+		</UserControl.Styles>
+
+		<Border Margin="1" BorderBrush="DarkGray" BorderThickness="1">
+			<Panel Background="Yellow">
+				<ItemsControl Items="{Binding Elements}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<Canvas Background="Yellow" Margin="20" RenderTransformOrigin="0,0">
+								<Canvas.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="0" Y="0"></TranslateTransform>
+										<ScaleTransform ScaleX="2" ScaleY="2"></ScaleTransform>
+									</TransformGroup>
+								</Canvas.RenderTransform>
+							</Canvas>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.DataTemplates>
+						<DataTemplate DataType="vm:GraphVertice">
+							<Ellipse Stroke="Black" Fill="LightGreen" StrokeThickness="1" Width="20" Height="20">
+								<Ellipse.RenderTransform>
+									<TranslateTransform X="-10" Y="-10"> </TranslateTransform>
+								</Ellipse.RenderTransform>
+							</Ellipse>
+						</DataTemplate>
+						<DataTemplate DataType="vm:GraphEdge">
+							<Line Stroke="Black" StrokeThickness="0.5" StartPoint="{Binding Start}" EndPoint="{Binding End}"/>
+						</DataTemplate>
+					</ItemsControl.DataTemplates>
+				</ItemsControl>
+			</Panel>
+		</Border>
+</UserControl>
