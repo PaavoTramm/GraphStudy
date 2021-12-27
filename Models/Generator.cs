@@ -103,6 +103,9 @@ namespace GraphStudy.Models
 
         Point Next(List<Node> nodes)
         {
+            int index = 0;
+            int maxval = 0xFFFF;
+
             while (true)
             {
                 Point p = new Point()
@@ -112,6 +115,9 @@ namespace GraphStudy.Models
                 };
 
                 if (null == FindAtDistance(nodes, p))
+                    return p;
+
+                if (++index > maxval)
                     return p;
             }
         }
