@@ -22,7 +22,12 @@ namespace GraphStudy.ViewModels
 
         void GenerateExecuted()
         {
+            State.Instance.Reset();
+            
             Nodes = new ObservableCollection<Node>((new Generator()).Generate());
+
+            Graph.Refresh();
+            Matrix.Refresh();
         }
 
         void RunExecuted()
@@ -32,11 +37,11 @@ namespace GraphStudy.ViewModels
             Graph.Refresh();
             Matrix.Refresh();
 
-            Algorithm? algorithm = Algorithm.Create(Settings.Algorithm);
+            Algorithm? algorithm = Algorithm.Create(State.Instance, Settings.Algorithm);
             if (null == algorithm)
                 return;
 
-            algorithm.Execute(State.Instance, Nodes);
+            algorithm.Execute(Nodes);
 
             Graph.Refresh();
             Matrix.Refresh();

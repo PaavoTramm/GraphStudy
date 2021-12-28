@@ -21,12 +21,6 @@
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<Canvas Background="Yellow" Margin="20" RenderTransformOrigin="0,0">
-								<Canvas.RenderTransform>
-									<TransformGroup>
-										<TranslateTransform X="0" Y="0"></TranslateTransform>
-										<ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
-									</TransformGroup>
-								</Canvas.RenderTransform>
 							</Canvas>
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,30 @@ namespace GraphStudy.Models
     {
         Random m_random = new Random(Guid.NewGuid().GetHashCode());
         double m_mindistance = 0.1;
+        
+        int m_cells = 0;
+        int m_count = 0;
+
+        double m_cell_x = 0;
+        double m_cell_y = 0;
 
         public List<Node> Generate()
         {
             List<Node> nodes = new List<Node>();
 
-            // create Settings
-            for(int i = 0; i < Settings.Instance.Nodes; ++i)
+            m_count = Settings.Instance.Nodes;
+            if (m_count <= 0)
+                return nodes;
+
+            m_cells = (int)(0.5 + Math.Sqrt((double)(2*m_count)));
+            m_cell_x = XScale / m_cells;
+            m_cell_y = YScale / m_cells;
+
+            m_taken = null;
+
+            // create randomly dispersed nodes
+
+            for (int i = 0; i < m_count; ++i)
             {
                 Node node = new Node();
                 node.Location = Next(nodes);
@@ -24,6 +42,7 @@ namespace GraphStudy.Models
             }
             
             // make connections between nodes
+
             foreach (var node in nodes)
                 Connect(node, nodes);
 
@@ -40,9 +59,8 @@ namespace GraphStudy.Models
                     continue;
 
                 double distance = Distance.Between(n, node);
-                all.Add(new Edge
+                all.Add(new Edge(n)
                 {
-                    Node = n,
                     Length = distance,
                     Weight = GetWeight()
                 });
@@ -52,9 +70,9 @@ namespace GraphStudy.Models
 
             var count = 0;
 
-            foreach (var edge in all)
+            foreach (Edge edge in all)
             {
-                if (!node.Edges.Any(e => object.ReferenceEquals(e.Node, edge.Node) ))
+                if (!node.Edges.Any(e => object.ReferenceEquals(e.Node, edge.Node)))
                     node.Edges.Add(edge);
                 
                 count++;
@@ -63,14 +81,11 @@ namespace GraphStudy.Models
 
                 if (edge.Node != null && !edge.Node.Edges.Any(e => object.ReferenceEquals(e.Node, node)))
                 {
-                    var backConnection = new Edge 
+                    edge.Node.Edges.Add(new Edge(node)
                     { 
-                        Node = node, 
                         Length = edge.Length,
                         Weight = edge.Weight
-                    };
-
-                    edge.Node.Edges.Add(backConnection);
+                    });
                 }
 
                 if (count >= Settings.Instance.Edges)
@@ -101,25 +116,36 @@ namespace GraphStudy.Models
             }
         }
 
+        BitArray? m_taken = null;
+
+        BitArray Taken
+        {
+            get 
+            { 
+                if( null== m_taken )
+                    m_taken = new BitArray( m_cells*m_cells);
+                return m_taken; 
+            }
+        }
+
         Point Next(List<Node> nodes)
         {
-            int index = 0;
-            int maxval = 0xFFFF;
+            int x = m_random.Next(0, m_cells);
+            int y = m_random.Next(0, m_cells);
 
-            while (true)
+            while(Taken[m_cells * y + x])
             {
-                Point p = new Point()
-                {
-                    X = XScale * m_random.NextDouble(),
-                    Y = YScale * m_random.NextDouble()
-                };
-
-                if (null == FindAtDistance(nodes, p))
-                    return p;
-
-                if (++index > maxval)
-                    return p;
+                x = m_random.Next(0, m_cells);
+                y = m_random.Next(0, m_cells);
             }
+
+            Taken[m_cells * y + x] = true;
+
+            return new Point()
+            {
+                X = x * m_cell_x + m_cell_x * m_random.NextDouble(),
+                Y = y * m_cell_y + m_cell_y * m_random.NextDouble()
+            };
         }
 
         Point? FindAtDistance(List<Node> nodes, Point p)

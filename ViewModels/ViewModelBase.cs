@@ -7,5 +7,6 @@ namespace GraphStudy.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {
+        public bool Active { get; set; }
     }
 }

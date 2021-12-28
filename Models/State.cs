@@ -55,6 +55,13 @@ namespace GraphStudy.Models
             m_selected.Clear();
         }
 
+        Random m_random = new Random(Guid.NewGuid().GetHashCode());
+
+        public Random Random
+        {
+            get { return m_random; }
+        }
+
         static readonly State m_instance = new State();
         public static State Instance
         {
