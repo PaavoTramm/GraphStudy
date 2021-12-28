@@ -14,6 +14,8 @@ namespace GraphStudy.ViewModels
             Generate = ReactiveCommand.Create(GenerateExecuted);
             Run = ReactiveCommand.Create(RunExecuted);
             Reset = ReactiveCommand.Create(ResetExecuted);
+
+            Message = "Click 'Generate' to build random node tree";
         }
 
         public ReactiveCommand<Unit, Unit> Generate { get; }
@@ -23,11 +25,18 @@ namespace GraphStudy.ViewModels
         void GenerateExecuted()
         {
             State.Instance.Reset();
-            
-            Nodes = new ObservableCollection<Node>((new Generator()).Generate());
+
+            Generator generator = new Generator();
+
+            Nodes = new ObservableCollection<Node>(generator.Generate());
 
             Graph.Refresh();
             Matrix.Refresh();
+            
+            if(Nodes.Count == 0)
+                Message = "Generator did not produce any nodes";
+            else
+                Message = $"Generated tree with {Nodes.Count} vertices";
         }
 
         void RunExecuted()
@@ -45,6 +54,8 @@ namespace GraphStudy.ViewModels
 
             Graph.Refresh();
             Matrix.Refresh();
+
+            Message = $"{Settings.Algorithm} selected {State.Instance.Nodes} vertices";
         }
 
         void ResetExecuted()
@@ -53,6 +64,8 @@ namespace GraphStudy.ViewModels
 
             Graph.Refresh();
             Matrix.Refresh();
+
+            Message = $"Selection cleared";
         }
 
         ObservableCollection<Node> m_nodes = new ObservableCollection<Node>();
@@ -82,6 +95,13 @@ namespace GraphStudy.ViewModels
                     m_matrix = new MatrixViewModel(Nodes);
                 return m_matrix;
             }
+        }
+
+        String m_message = "";
+        public String Message
+        {
+            get { return m_message; }
+            private set { if (value != m_message) { this.RaiseAndSetIfChanged(ref m_message, value); } }
         }
 
         SettingsViewModel m_settings = new SettingsViewModel();

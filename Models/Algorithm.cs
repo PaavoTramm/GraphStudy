@@ -15,22 +15,7 @@ namespace GraphStudy.Models
             m_state = state;
         }
 
-        public bool Prepare(IEnumerable<Node> nodes)
-        {
-            if (m_state.Start == null)
-                m_state.Start = GetRandom(nodes);
-
-            while (m_state.End == null || object.ReferenceEquals(m_state.End, m_state.Start))
-            {
-                m_state.End = GetRandom(nodes);
-            }
-
-            if (m_state.Start == null || m_state.End == null)
-                return false;
-
-            return true;
-        }
-
+        public abstract bool Prepare(IEnumerable<Node> nodes);
         public abstract bool Execute(IEnumerable<Node> nodes);
 
         public static Algorithm? Create(State state, String name)
@@ -76,6 +61,22 @@ namespace GraphStudy.Models
                     targets.Add(edge.Node);
             }
             return GetRandom(targets);
+        }
+
+        protected void Select(Node from, Node to)
+        {
+            Edge e1 = from.Edges.First(e => e.Node == to);
+            Edge e2 = to.Edges.First( e => e.Node == from);
+            if (e1 == null && e2 == null)
+                return;
+
+            if (e1 != null)
+                m_state.Select(e1);
+            if (e2 != null)
+                m_state.Select(e2);
+
+            m_state.Select(from);
+            m_state.Select(to);
         }
     }
 }

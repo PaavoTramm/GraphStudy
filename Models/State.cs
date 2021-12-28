@@ -17,7 +17,9 @@ namespace GraphStudy.Models
         {
             Start = null;
             End = null;
-            m_selected.Clear();
+            
+            m_nodes.Clear();
+            m_edges.Clear();
         }
 
         public Node? Start
@@ -32,27 +34,56 @@ namespace GraphStudy.Models
             set;
         }
 
-        HashSet<Node> m_selected = new HashSet<Node>();
+        public int Nodes
+        {
+            get { return m_nodes.Count; }  
+        }
+
+        public int Edges
+        {
+            get { return m_edges.Count; }
+        }
+
+        HashSet<Node> m_nodes = new HashSet<Node>();
         public bool Selected(Node node)
         {
-            return m_selected.Contains(node);
+            return m_nodes.Contains(node);
         }
         
         public void Select(Node node)
         {
-            if (!m_selected.Contains(node))
-                m_selected.Add(node);
+            if (!m_nodes.Contains(node))
+                m_nodes.Add(node);
         }
 
         public void DeSelect(Node node)
         {
-            if (m_selected.Contains(node))
-                m_selected.Remove(node);
+            if (m_nodes.Contains(node))
+                m_nodes.Remove(node);
+        }
+
+        HashSet<Edge> m_edges = new HashSet<Edge>();
+        public bool Selected(Edge edge)
+        {
+            return m_edges.Contains(edge);
+        }
+
+        public void Select(Edge edge)
+        {
+            if (!m_edges.Contains(edge))
+                m_edges.Add(edge);
+        }
+
+        public void DeSelect(Edge edge)
+        {
+            if (m_edges.Contains(edge))
+                m_edges.Remove(edge);
         }
 
         public void DeSelect()
         {
-            m_selected.Clear();
+            m_nodes.Clear();
+            m_edges.Clear();
         }
 
         Random m_random = new Random(Guid.NewGuid().GetHashCode());

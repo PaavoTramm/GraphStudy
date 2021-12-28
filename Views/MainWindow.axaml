@@ -14,7 +14,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<Grid ColumnDefinitions="*,Auto">
+	<Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
 		
 		<Grid>
 			<TabControl>
@@ -36,6 +36,10 @@
 					<Button MinWidth="100" Command="{Binding Reset}" HorizontalContentAlignment="Center">Reset</Button>
 				</StackPanel>
 			</DockPanel>
+		</Grid>
+
+		<Grid Grid.Row="1" Grid.ColumnSpan="2">
+			<TextBlock Margin="20,0,4,4" Text="{Binding Message}"></TextBlock>
 		</Grid>
 		
 	</Grid>

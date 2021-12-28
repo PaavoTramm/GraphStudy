@@ -29,7 +29,7 @@
 							<v:VerticeView></v:VerticeView>
 						</DataTemplate>
 						<DataTemplate DataType="vm:GraphEdge">
-							<Line Stroke="{Binding Stroke}" StrokeThickness="0.5" StartPoint="{Binding Start}" EndPoint="{Binding End}"/>
+							<Line Stroke="{Binding Stroke}" StrokeThickness="{Binding Thickness}" StartPoint="{Binding Start}" EndPoint="{Binding End}"/>
 						</DataTemplate>
 					</ItemsControl.DataTemplates>
 				</ItemsControl>

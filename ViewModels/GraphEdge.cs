@@ -23,6 +23,7 @@ namespace GraphStudy.ViewModels
         public override void Update()
         {
             this.RaisePropertyChanged("Stroke");
+            this.RaisePropertyChanged("Thickness");
         }
 
         public double X
@@ -111,11 +112,21 @@ namespace GraphStudy.ViewModels
         {
             get
             {
-                if(m_node != null && m_edge != null && m_edge.Node != null )
-                    if (State.Instance.Selected(m_node) && State.Instance.Selected(m_edge.Node))
-                        return Brushes.Red;
+                if (m_edge != null && State.Instance.Selected(m_edge))
+                    return Brushes.Red;
                 return Brushes.Black;
             }
         }
+
+        public double Thickness
+        {
+            get
+            {
+                if (m_edge != null && State.Instance.Selected(m_edge))
+                    return 1.0;
+                return 0.5;
+            }
+        }
+
     }
 }

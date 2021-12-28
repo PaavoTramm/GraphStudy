@@ -18,7 +18,21 @@ namespace GraphStudy.Models
         Dictionary<Node, Node> m_nearest = new Dictionary<Node, Node>();
         Dictionary<Node, double> m_distances = new Dictionary<Node, double>();
         Dictionary<Node, bool> m_visited = new Dictionary<Node, bool>();
-        List<Node> m_path = new List<Node>();
+
+        public override bool Prepare(IEnumerable<Node> nodes)
+        {
+            if (m_state.Start == null)
+                m_state.Start = GetRandom(nodes);
+
+            if(m_state.End != null)
+            {
+                if(object.ReferenceEquals(m_state.End, m_state.Start))
+                    m_state.End = null;
+            }
+
+            return m_state.Start != null;
+        }
+
 
         public override bool Execute(IEnumerable<Node> nodes)
         {
@@ -26,7 +40,7 @@ namespace GraphStudy.Models
 
             Prepare(nodes);
 
-            if (m_state.Start == null || m_state.End == null)
+            if (m_state.Start == null)
                 return false;
 
             // build shortest path tree
@@ -66,27 +80,51 @@ namespace GraphStudy.Models
             }
             while (queue.Any());
 
-            // failed to reach the end node
-            if (!Visited(m_state.End))
-                return false;
+            // end node was defined
+            if (m_state.End != null)
+            {
+                // failed to reach the end node
+                if (!Visited(m_state.End))
+                    return false;
 
-            return SelectPath(nodes);
+                return SelectPath(nodes);
+            }
+
+            // highlight all possibilities
+            foreach (Node n in nodes)
+            {
+                Node? n2 = Nearest(n);
+                if (n2 != null)
+                    Select(n, n2);
+            }
+            return true;
         }
 
         bool SelectPath(IEnumerable<Node> nodes)
         {
+            Node? start = m_state.Start;
+
             Node? node = m_state.End;
             if (node == null)
                 return false;
 
+            m_state.Select(node);
+
+            Node? next = null;
             do
             {
-                m_state.Select(node);
+                next = Nearest(node);
+                if (null == next)
+                    return false;
+                
+                Select(node, next);
 
-                if (ReferenceEquals(node, m_state.Start))
+                if (ReferenceEquals(next, start))
                     return true;
+
+                node = next;
             }
-            while (null != (node = Nearest(node)));
+            while (null != next);
 
             return true;
         }
@@ -96,7 +134,6 @@ namespace GraphStudy.Models
             m_nearest.Clear();
             m_distances.Clear();
             m_visited.Clear();
-            m_path.Clear();
         }
 
         // distance to start
