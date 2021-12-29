@@ -41,7 +41,12 @@
 		<Grid Grid.Row="1" Grid.ColumnSpan="2">
 			<TextBlock Margin="20,0,4,4" Text="{Binding Message}"></TextBlock>
 		</Grid>
-		
+
+		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !Populated}">
+			<TextBlock FontSize="24" >Click Generate to create a graph</TextBlock>
+			<TextBlock FontSize="16" FontStyle="Italic" >Select start and end node, then execute search</TextBlock>
+		</StackPanel>
+
 	</Grid>
 	
 </Window>

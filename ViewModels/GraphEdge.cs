@@ -11,10 +11,10 @@ namespace GraphStudy.ViewModels
 {
     public class GraphEdge : GraphElement
     {
-        Node? m_node;
-        Edge? m_edge;
-        public GraphEdge(Node node, Edge edge)
-            : base()
+        Node m_node;
+        Edge m_edge;
+        public GraphEdge(GraphViewModel parent, Node node, Edge edge)
+            : base(parent)
         {
             m_node = node;
             m_edge = edge;
@@ -26,31 +26,41 @@ namespace GraphStudy.ViewModels
             this.RaisePropertyChanged("Thickness");
         }
 
+        public void UpdatePosition( )
+        {
+            this.RaisePropertyChanged("X");
+            this.RaisePropertyChanged("Y");
+            this.RaisePropertyChanged("Start");
+            this.RaisePropertyChanged("End");
+        }
+
+        public Node Node
+        {
+            get { return m_node; }
+        }
+
+        public Edge Edge
+        {
+            get { return m_edge; }
+        }
+
         public double X
         {
-            get { return m_node != null ? m_node.Location.X : 0; }
+            get { return m_node.Location.X; }
             set 
             {
-                if (m_node != null)
-                {
-                    Point p = new Point() { X = value, Y = m_node.Location.Y };
-                    m_node.Location = p;
-                    this.RaisePropertyChanged();
-                }
+                m_node.Location = new Point() { X = value, Y = m_node.Location.Y };
+                this.RaisePropertyChanged();
             }
         }
 
         public double Y
         {
-            get { return m_node != null ? m_node.Location.Y : 0; }
+            get { return m_node.Location.Y; }
             set
             {
-                if (m_node != null)
-                {
-                    Point p = new Point() { X = m_node.Location.X, Y = value };
-                    m_node.Location = p;
-                    this.RaisePropertyChanged();
-                }
+                m_node.Location = new Point() { X = m_node.Location.X, Y = value };
+                this.RaisePropertyChanged();
             }
         }
 
@@ -58,17 +68,13 @@ namespace GraphStudy.ViewModels
         {
             get 
             { 
-                return ( m_edge != null && m_edge.Node != null ) ? m_edge.Node.Location.X : 0; 
+                return m_edge.Node.Location.X; 
             }
 
             set
             {
-                if (m_edge != null && m_edge.Node != null)
-                {
-                    Point p = new Point() { X = value, Y = m_edge.Node.Location.Y };
-                    m_edge.Node.Location = p;
-                    this.RaisePropertyChanged();
-                }
+                m_edge.Node.Location = new Point() { X = value, Y = m_edge.Node.Location.Y };
+                this.RaisePropertyChanged();
             }
         }
 
@@ -76,17 +82,13 @@ namespace GraphStudy.ViewModels
         {
             get
             {
-                return (m_edge != null && m_edge.Node != null) ? m_edge.Node.Location.Y : 0;
+                return m_edge.Node.Location.Y;
             }
 
             set
             {
-                if (m_edge != null && m_edge.Node != null)
-                {
-                    Point p = new Point() { X = m_edge.Node.Location.X, Y = value };
-                    m_edge.Node.Location = p;
-                    this.RaisePropertyChanged();
-                }
+                m_edge.Node.Location = new Point() { X = m_edge.Node.Location.X, Y = value };
+                this.RaisePropertyChanged();
             }
         }
 

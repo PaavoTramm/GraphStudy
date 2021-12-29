@@ -110,10 +110,16 @@ namespace GraphStudy.ViewModels
             get { return m_settings; }
         }
 
+        public bool Populated
+        {
+            get { return m_nodes != null && m_nodes.Count > 0; }
+        }
+
         void NodesChanged()
         {
             Graph.Nodes = Nodes;
             Matrix.Nodes = Nodes;
+            this.RaisePropertyChanged("Populated");
         }
     }
 }

@@ -70,8 +70,8 @@ namespace GraphStudy.Models
 
         static List<String> m_algorithms = new List<string>()
         {
-            "Random",
-            "Dijkstra"
+            "Dijkstra",
+            "Random"
         };
 
         int m_index = 0;
@@ -107,6 +107,38 @@ namespace GraphStudy.Models
             get
             {
                 return m_algorithms;
+            }
+        }
+
+        public int ToolIndex
+        {
+            get
+            {
+                return GraphStudy.Tools.Tool.Selected;
+            }
+            set
+            {
+                if (GraphStudy.Tools.Tool.Selected != value)
+                {
+                    GraphStudy.Tools.Tool.Selected = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        List<String>? m_tools;
+
+        public IEnumerable<String> Tools
+        {
+            get
+            {
+                if(m_tools== null)
+                {
+                    m_tools = new List<String>();
+                    foreach(GraphStudy.Tools.Tool tool in GraphStudy.Tools.Tool.Tools)
+                        m_tools.Add(tool.Name);
+                }
+                return m_tools;
             }
         }
 

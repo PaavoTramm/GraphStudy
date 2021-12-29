@@ -10,9 +10,16 @@ namespace GraphStudy.ViewModels
 {
     public class GraphElement : ReactiveObject
     {
-        public GraphElement()
-        {
+        readonly GraphViewModel m_parent;
 
+        public GraphElement(GraphViewModel parent)
+        {
+            m_parent = parent;
+        }
+
+        public GraphViewModel Parent
+        {
+            get { return m_parent; }
         }
 
         public virtual void Update()

@@ -37,5 +37,14 @@ namespace GraphStudy.ViewModels
             get { return Models.Settings.Instance.AlgorithmIndex; }
             set { Models.Settings.Instance.AlgorithmIndex = value; }
         }
+        public IEnumerable<String> Tools
+        {
+            get { return Models.Settings.Instance.Tools; }
+        }
+        public int ToolIndex
+        {
+            get { return Models.Settings.Instance.ToolIndex; }
+            set { Models.Settings.Instance.ToolIndex = value; }
+        }
     }
 }

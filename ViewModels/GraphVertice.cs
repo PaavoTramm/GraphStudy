@@ -12,19 +12,27 @@ namespace GraphStudy.ViewModels
     public class GraphVertice : GraphElement
     {
         Node m_node;
-        public GraphVertice(Node node)
-            : base()
+
+        public GraphVertice(GraphViewModel parent, Node node)
+            : base(parent)
         {
             m_node = node;
         }
 
         public override void Update()
         {
-            //this.RaisePropertyChanged("Selected");
-            //this.RaisePropertyChanged("IsStart");
-            //this.RaisePropertyChanged("IsEnd");
             this.RaisePropertyChanged("Fill");
             this.RaisePropertyChanged("Description");
+        }
+
+        public void UpdatePosition()
+        {
+            Parent.UpdatePosition(this);
+        }
+
+        public Node Node
+        {
+            get { return m_node; }
         }
 
         public String Description
@@ -124,12 +132,8 @@ namespace GraphStudy.ViewModels
             get { return m_node != null ? m_node.Location.X : 0; }
             set 
             {
-                if (m_node != null)
-                {
-                    Point p = new Point() { X = value, Y = m_node.Location.Y };
-                    m_node.Location = p;
-                    this.RaisePropertyChanged();
-                }
+                m_node.Location = new Point() { X = value, Y = m_node.Location.Y };
+                this.RaisePropertyChanged();
             }
         }
 
@@ -138,12 +142,8 @@ namespace GraphStudy.ViewModels
             get { return m_node != null ? m_node.Location.Y : 0; }
             set
             {
-                if (m_node != null)
-                {
-                    Point p = new Point() { X = m_node.Location.X, Y = value };
-                    m_node.Location = p;
-                    this.RaisePropertyChanged();
-                }
+                m_node.Location = new Point() { X = m_node.Location.X, Y = value };
+                this.RaisePropertyChanged();
             }
         }
 
@@ -152,5 +152,6 @@ namespace GraphStudy.ViewModels
             get { return "Node"; }
             set { }
         }
+
     }
 }

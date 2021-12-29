@@ -42,15 +42,28 @@ namespace GraphStudy.ViewModels
             foreach(Node node in m_nodes)
             {
                 foreach (Edge edge in node.Edges)
-                    elements.Add(new GraphEdge(node, edge));
+                    elements.Add(new GraphEdge(this, node, edge));
             }
 
             foreach (Node node in m_nodes)
             {
-                elements.Add(new GraphVertice(node));
+                elements.Add(new GraphVertice(this, node));
             }
             
             Elements = new ObservableCollection<GraphElement>(elements);
+        }
+
+        public void UpdatePosition(GraphVertice node)
+        {
+            foreach (GraphElement element in Elements)
+            {
+                GraphEdge? edge = element as GraphEdge;
+                if(edge != null)
+                {
+                    if(edge.Node == node.Node || edge.Edge.Node == node.Node)
+                        edge.UpdatePosition();
+                }
+            }
         }
     }
 }

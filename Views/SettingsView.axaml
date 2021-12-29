@@ -13,5 +13,7 @@
 		<Slider Value="{Binding Diameter}" Minimum="10" Maximum="30"></Slider>
 		<Label>Method:</Label>
 		<ComboBox Items="{Binding Algorithms, Mode=OneWay}" SelectedIndex="{Binding AlgorithmIndex}"></ComboBox>
+		<Label>Mouse action:</Label>
+		<ComboBox Items="{Binding Tools, Mode=OneWay}" SelectedIndex="{Binding ToolIndex}"></ComboBox>
 	</StackPanel>
 </UserControl>
