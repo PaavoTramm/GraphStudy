@@ -11,6 +11,8 @@ namespace GraphStudy
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+
+            Name = "Random Graph";
         }
 
         public override void OnFrameworkInitializationCompleted()
