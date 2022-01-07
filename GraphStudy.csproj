@@ -3,10 +3,17 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <SignAssembly>False</SignAssembly>
+    <PackageIcon>graphtree.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/PaavoTramm/GraphStudy</PackageProjectUrl>
+    <ApplicationIcon>Assets\graphtree.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <None Remove=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\graphtree.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.10" />
@@ -22,5 +29,11 @@
     <Compile Update="Views\SettingsView.axaml.cs">
       <DependentUpon>SettingsView.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\graphtree.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>
